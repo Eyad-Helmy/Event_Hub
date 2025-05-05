@@ -1,9 +1,31 @@
+// --- Auth & Header Logic ---
+function updateHeaderForAuth() {
+    const token = localStorage.getItem('jwtToken');
+    const profileNav = document.getElementById('profileNav');
+    const loginBtn = document.getElementById('loginBtn');
+    const signupBtn = document.getElementById('signupBtn');
+    const logoutBtn = document.getElementById('logoutBtn');
+
+    if (token) {
+        if (profileNav) profileNav.style.display = 'inline-block';
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (signupBtn) signupBtn.style.display = 'none';
+        if (logoutBtn) logoutBtn.style.display = 'inline-block';
+    } else {
+        if (profileNav) profileNav.style.display = 'none';
+        if (loginBtn) loginBtn.style.display = 'inline-block';
+        if (signupBtn) signupBtn.style.display = 'inline-block';
+        if (logoutBtn) logoutBtn.style.display = 'none';
+    }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     setupModals();
     setupFormValidation();
     // loadFeaturedEvents();
     setupNavigationLinks();
     // setupSearch();
+    updateHeaderForAuth();
 });
 
 function setupModals() {
@@ -71,7 +93,7 @@ function setupModals() {
 }
 
 function setupNavigationLinks() {
-    const navLinks = document.querySelectorAll('nav ul li a');
+    const navLinks = document.querySelectorAll('nav ul li a:not([href="profile.html"])');
     const homeLink = document.querySelector('a.logo');
     const footerLinks = document.querySelectorAll('footer a');
     const categoryLinks = document.querySelectorAll('.category-content a');
@@ -169,4 +191,11 @@ async function handleSignup(event) {
         console.error('Error during registration:', error);
         alert('An error occurred. Please try again.');
     }
+}
+
+if (document.getElementById('logoutBtn')) {
+    document.getElementById('logoutBtn').addEventListener('click', function() {
+        localStorage.removeItem('jwtToken');
+        window.location.href = 'index.html';
+    });
 }

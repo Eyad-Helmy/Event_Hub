@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Profile - EventHub</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <style>
+    /* Make disabled outline buttons look visually disabled */
+    .btn.btn-outline:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+        border-color: #ccc;
+        color: #aaa;
+        background: #f9f9f9;
+    }
+    </style>
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <i>📅</i> EventHub
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="venues.html">Venues</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                        <li id="profileNav" style="display:none;"><a href="profile.html" class="active">Profile</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <button class="btn btn-outline" id="switchRoleBtn">Switch Role</button>
+                    <button class="btn btn-outline" id="loginBtn">Log In</button>
+                    <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+                    <button class="btn btn-primary" id="logoutBtn" style="display: none;">Log Out</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <section class="container">
+            <div class="profile-section">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <img src="https://via.placeholder.com/150" alt="Profile Picture" id="profileImage">
+                        <button class="btn btn-outline" id="changeAvatarBtn">Change Picture</button>
+                    </div>
+                    <div class="profile-info">
+                        <h1 id="profileName">John Doe</h1>
+                        <span class="user-role" id="profileRole">Attendee</span>
+                        <p class="user-email" id="profileEmail">john.doe@example.com</p>
+                    </div>
+                </div>
+
+                <div class="profile-content">
+                    <div class="profile-tabs">
+                        <button class="tab-btn active" data-tab="personal">Personal Info</button>
+                        <button class="tab-btn" data-tab="events" id="myEventsTab">My Events</button>
+                        <button class="tab-btn" data-tab="bookings" id="myBookingsTab">My Bookings</button>
+                        <button class="tab-btn" data-tab="settings">Settings</button>
+                    </div>
+
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="personal">
+                            <form id="personalInfoForm">
+                                <div class="form-group">
+                                    <label for="fullName">Full Name</label>
+                                    <input type="text" id="fullName">
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Email</label>
+                                    <input type="email" id="email">
+                                </div>
+                                <div class="form-group">
+                                    <label for="phone">Phone Number</label>
+                                    <input type="tel" id="phone">
+                                </div>
+                                <div class="form-group">
+                                    <label for="bio">Bio</label>
+                                    <textarea id="bio" rows="4"></textarea>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Save Changes</button>
+                                </div>
+                            </form>
+                        </div>
+
+                        <div class="tab-pane" id="events">
+                            <div class="event-cards">
+                                <!-- Events will be populated dynamically -->
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="bookings">
+                            <div class="bookings-list">
+                                <!-- Bookings will be populated dynamically -->
+                            </div>
+                        </div>
+
+                        <div class="tab-pane" id="settings">
+                            <form id="settingsForm">
+                                <div class="form-group">
+                                    <label for="theme">Theme</label>
+                                    <select id="theme" name="theme">
+                                        <option value="light">Light</option>
+                                        <option value="dark">Dark</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="notifications">Email Notifications</label>
+                                    <select id="notifications">
+                                        <option value="all">All Notifications</option>
+                                        <option value="important">Important Only</option>
+                                        <option value="none">None</option>
+                                    </select>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">Save Settings</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>EventHub</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Attendees</h3>
+                    <ul>
+                        <li><a href="attendee/dashboard.html">My Dashboard</a></li>
+                        <li><a href="events.html">Browse Events</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Organizers</h3>
+                    <ul>
+                        <li><a href="organizer/dashboard.html">Organizer Dashboard</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Event Tips</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Venues</h3>
+                    <ul>
+                        <li><a href="venue/dashboard.html">Venue Dashboard</a></li>
+                        <li><a href="#">Venue Guidelines</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Venue Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 EventHub. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Switch Role Modal -->
+    <div id="switchRoleModal" class="modal" style="display:none;">
+        <div class="modal-content" style="max-width: 350px; text-align: center;">
+            <span class="modal-close" id="closeSwitchRoleModal" style="float:right;cursor:pointer;font-size:1.5em;">&times;</span>
+            <h2>Switch Role</h2>
+            <div style="margin: 30px 0; display: flex; flex-direction: column; gap: 15px;">
+                <button class="btn btn-outline" data-role="attendee">Attendee</button>
+                <button class="btn btn-outline" data-role="organizer">Organizer</button>
+                <button class="btn btn-outline" data-role="venueAdmin">Venue Admin</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Redirect to index if not authenticated
+        const token = localStorage.getItem('jwtToken');
+        console.log('Token:', token); // Debug token
+
+        if (!token) {
+            window.location.href = 'index.html';
+            return;
+        }
+
+        // Fetch user info and update profile
+        console.log('Fetching user data...');
+        fetch('http://localhost:3000/api/users/me', {
+            headers: { 
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => {
+            console.log('Response status:', res.status);
+            if (!res.ok) {
+                console.error('Response not OK:', res.status);
+                throw new Error('Not authenticated');
+            }
+            return res.json();
+        })
+        .then(user => {
+            console.log('User data received:', user);
+            // Update profile data
+            document.getElementById('profileName').textContent = user.user.username || 'Not set';
+            document.getElementById('profileEmail').textContent = user.user.email || 'Not set';
+            document.getElementById('profileRole').textContent = capitalize(user.user.active_role || 'Not set');
+            document.getElementById('fullName').value = user.user.username || '';
+            document.getElementById('email').value = user.user.email || '';
+            
+            // Ensure profile nav stays visible
+            const profileNav = document.getElementById('profileNav');
+            if (profileNav) profileNav.style.display = 'inline-block';
+            
+            // Ensure login/signup are hidden and logout is visible
+            const loginBtn = document.getElementById('loginBtn');
+            const signupBtn = document.getElementById('signupBtn');
+            const logoutBtn = document.getElementById('logoutBtn');
+            if (loginBtn) loginBtn.style.display = 'none';
+            if (signupBtn) signupBtn.style.display = 'none';
+            if (logoutBtn) logoutBtn.style.display = 'inline-block';
+        })
+        .catch(error => {
+            console.error('Error loading profile:', error);
+            // Only redirect if it's an authentication error
+            if (error.message === 'Not authenticated') {
+                localStorage.removeItem('jwtToken');
+                window.location.href = 'index.html';
+            }
+        });
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Switch Role Modal logic
+        const switchRoleBtn = document.getElementById('switchRoleBtn');
+        const switchRoleModal = document.getElementById('switchRoleModal');
+        const closeSwitchRoleModal = document.getElementById('closeSwitchRoleModal');
+        let currentRole = null;
+        // Get current role from loaded user data if available
+        function openSwitchRoleModal() {
+            const roleBtns = switchRoleModal.querySelectorAll('button[data-role]');
+            roleBtns.forEach(btn => {
+                if (btn.getAttribute('data-role') === currentRole) {
+                    btn.disabled = true;
+                } else {
+                    btn.disabled = false;
+                }
+            });
+            switchRoleModal.style.display = 'flex';
+        }
+        fetch('http://localhost:3000/api/users/me', {
+            headers: { 
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(user => {
+            currentRole = user.user.active_role;
+            // Only enable the switch role button after currentRole is set
+            if (switchRoleBtn) {
+                switchRoleBtn.disabled = false;
+                switchRoleBtn.addEventListener('click', openSwitchRoleModal);
+            }
+        });
+        if (switchRoleBtn) {
+            switchRoleBtn.disabled = true; // Prevent opening before currentRole is set
+        }
+        if (switchRoleModal && closeSwitchRoleModal) {
+            closeSwitchRoleModal.addEventListener('click', () => {
+                switchRoleModal.style.display = 'none';
+            });
+            switchRoleModal.addEventListener('click', (e) => {
+                if (e.target === switchRoleModal) switchRoleModal.style.display = 'none';
+            });
+            switchRoleModal.querySelectorAll('button[data-role]').forEach(btn => {
+                btn.addEventListener('click', async function() {
+                    const role = this.getAttribute('data-role');
+                    if (role === currentRole) return;
+                    try {
+                        const res = await fetch('http://localhost:3000/api/users/switch-role', {
+                            method: 'POST',
+                            headers: {
+                                'Authorization': 'Bearer ' + token,
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ role })
+                        });
+                        if (!res.ok) throw new Error('User does not have this role');
+                        const data = await res.json();
+                        if (data.token) {
+                            localStorage.setItem('jwtToken', data.token);
+                        }
+                        switchRoleModal.style.display = 'none';
+                        location.reload();
+                    } catch (err) {
+                        alert('Error switching role: ' + err.message);
+                    }
+                });
+            });
+        }
+    });
+    </script>
+    <script src="../scripts/script.js"></script>
+    <script type="module" src="../scripts/dashboard.js"></script>
+    <script>
+        // Initialize profile data
+        document.addEventListener('DOMContentLoaded', function() {
+            import('../scripts/dashboard.js').then(module => {
+                module.updateProfileInfo();
+                module.loadEvents();
+            });
+
+            // Handle tab switching
+            const tabs = document.querySelectorAll('.tab-btn');
+            const tabPanes = document.querySelectorAll('.tab-pane');
+
+            tabs.forEach(tab => {
+                tab.addEventListener('click', () => {
+                    // Remove active class from all tabs and panes
+                    tabs.forEach(t => t.classList.remove('active'));
+                    tabPanes.forEach(p => p.classList.remove('active'));
+
+                    // Add active class to clicked tab and corresponding pane
+                    tab.classList.add('active');
+                    const pane = document.getElementById(tab.dataset.tab);
+                    if (pane) pane.classList.add('active');
+                });
+            });
+        });
+
+        // Listen for role changes
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'userRole') {
+                import('../scripts/dashboard.js').then(module => {
+                    module.updateProfileInfo();
+                    module.loadEvents();
+                });
+            }
+        });
+
+        function updateProfileTabsByRole() {
+            const role = localStorage.getItem('userRole') || 'attendee';
+            const myEventsTab = document.getElementById('myEventsTab');
+            const myBookingsTab = document.getElementById('myBookingsTab');
+            if (myEventsTab) myEventsTab.style.display = (role === 'organizer') ? 'inline-block' : 'none';
+            if (myBookingsTab) myBookingsTab.style.display = (role === 'attendee') ? 'inline-block' : 'none';
+        }
+        window.addEventListener('storage', function(e) {
+            if (e.key === 'userRole') updateProfileTabsByRole();
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            updateProfileTabsByRole();
+        });
+    </script>
+</body>
+
+</html>
