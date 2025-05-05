@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Venues - EventHub</title>
+    <link rel="stylesheet" href="../styles.css">
+</head>
+
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <i>📅</i> EventHub
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="venues.html" class="active">Venues</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <button class="btn btn-outline" id="loginBtn">Log In</button>
+                    <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main>
+        <!-- Hero Section -->
+        <section class="container">
+            <div class="hero">
+                <div class="section-title">
+                    <h2>Venues</h2>
+                    <p>Find the perfect venue for your next event.</p>
+                </div>
+                <div class="search-bar">
+                    <input type="text" placeholder="Search for venues">
+                    <button>Search</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Venue Cards -->
+        <section class="container">
+            <div class="venue-cards">
+                <div class="venue-card">
+                    <div class="venue-img" style="background-image: url('../photos/GrandHall.jpg')"></div>
+                    <div class="venue-content">
+                        <h3>Grand Hall</h3>
+                        <p>A spacious venue perfect for large conferences and events.</p>
+                        <div class="venue-actions">
+                            <a href="venue-details.html" class="btn btn-outline">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="venue-card">
+                    <div class="venue-img" style="background-image: url('../photos/Auditorium.jpg')"></div>
+                    <div class="venue-content">
+                        <h3>Downtown Auditorium</h3>
+                        <p>An elegant auditorium located in the heart of the city, ideal for lectures and performances.</p>
+                        <div class="venue-actions">
+                            <a href="venue-details.html" class="btn btn-outline">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="venue-card">
+                    <div class="venue-img" style="background-image: url('../photos/CommunityCenter.jpg')"></div>
+                    <div class="venue-content">
+                        <h3>Community Center</h3>
+                        <p>A versatile space suitable for workshops, meetings, and community events.</p>
+                        <div class="venue-actions">
+                            <a href="venue-details.html" class="btn btn-outline">Learn More</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>EventHub</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Attendees</h3>
+                    <ul>
+                        <li><a href="events.html">Browse Events</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Organizers</h3>
+                    <ul>
+                        <li><a href="organizer/dashboard.html">Create Event</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Event Tips</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Venues</h3>
+                    <ul>
+                        <li><a href="venue/dashboard.html">List Your Venue</a></li>
+                        <li><a href="#">Venue Guidelines</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Venue Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 EventHub. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <!-- Modals -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Log In</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="social-login">
+                    <a href="https://www.google.co.uk/"><button ><i class="sm">G</i></button></a>
+                    <a href="https://www.facebook.com/"><button ><i class="sm">f</i></button></a>
+                    <a href="https://www.linkedin.com/"><button ><i class="sm">in</i></button></a>
+                </div>
+                <div class="form-divider">
+                    <span>or login with email</span>
+                </div>
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label for="loginEmail">Email</label>
+                        <input type="email" id="loginEmail" placeholder="Enter your email" required>
+                        <div class="validation-message" id="loginEmailError">Please enter a valid email address</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" placeholder="Enter your password" required>
+                        <div class="validation-message" id="loginPasswordError">Password must be at least 6 characters</div>
+                        <a href="#" class="forgot-password" id="forgotPasswordLink">Forgot password?</a>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Log In</button>
+                    </div>
+                    <div class="signup-link">
+                        Don't have an account? <a href="#" id="signupLink">Sign up</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Create Account</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="social-login">
+                    <a href="https://www.google.co.uk/"><button ><i class="sm">G</i></button></a>
+                    <a href="https://www.facebook.com/"><button ><i class="sm">f</i></button></a>
+                    <a href="https://www.linkedin.com/"><button ><i class="sm">in</i></button></a>
+                </div>
+                <div class="form-divider">
+                    <span>or signup with email</span>
+                </div>
+                <form id="signupForm">
+                    <div class="form-group">
+                        <label for="signupName">Full Name</label>
+                        <input type="text" id="signupName" placeholder="Enter your full name" required>
+                        <div class="validation-message" id="signupNameError">Please enter your full name</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupEmail">Email</label>
+                        <input type="email" id="signupEmail" placeholder="Enter your email" required>
+                        <div class="validation-message" id="signupEmailError">Please enter a valid email address</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupPassword">Password</label>
+                        <input type="password" id="signupPassword" placeholder="Create a password" required>
+                        <div class="validation-message" id="signupPasswordError">Password must be at least 8 characters with numbers and symbols</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="signupRole">I am a...</label>
+                        <select id="signupRole" required>
+                            <option value="" disabled selected>Select your role</option>
+                            <option value="attendee">Attendee</option>
+                            <option value="organizer">Event Organizer</option>
+                            <option value="venueAdmin">Venue Administrator</option>
+                        </select>
+                        <div class="validation-message" id="signupRoleError">Please select a role</div>
+                    </div>
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="termsCheck" required>
+                            I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>
+                        </label>
+                        <div class="validation-message" id="termsError">You must agree to the terms</div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Sign Up</button>
+                    </div>
+                    <div class="signup-link">
+                        Already have an account? <a href="#" id="loginLink">Log in</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" id="forgotPasswordModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Reset Password</h2>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Enter your email address and we'll send you a link to reset your password.</p>
+                <form id="forgotPasswordForm">
+                    <div class="form-group">
+                        <label for="resetEmail">Email</label>
+                        <input type="email" id="resetEmail" placeholder="Enter your email" required>
+                        <div class="validation-message" id="resetEmailError">Please enter a valid email address</div>
+                    </div>
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">Send Reset Link</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="../scripts/script.js"></script>
+</body>
+
+</html>

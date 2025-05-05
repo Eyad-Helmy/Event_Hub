@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Details</title>
+    <link rel="stylesheet" href="../styles.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="../event-details.css">
+</head>
+<body>
+<!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <a href="index.html" class="logo">
+                    <i>📅</i> EventHub
+                </a>
+                <nav>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="events.html" class="active">Events</a></li>
+                        <li><a href="venues.html">Venues</a></li>
+                        <li><a href="about.html">About</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </nav>
+                <div class="user-actions">
+                    <button class="btn btn-outline" id="loginBtn">Log In</button>
+                    <button class="btn btn-primary" id="signupBtn">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </header>
+<!-- Main Content -->
+ 
+    <div id="event-container">
+        <img id="event-image" alt="Event Image" />
+        <h1 id="event-title"></h1>
+        <p id="event-date"></p>
+        <p id="event-location"></p>
+        <p id="event-description"></p>
+        <p id="event-price"></p>
+        <button id="register-btn">Register</button>
+      </div>
+
+      <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>EventHub</h3>
+                    <ul>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Attendees</h3>
+                    <ul>
+                        <li><a href="events.html">Browse Events</a></li>
+                        <li><a href="#">How It Works</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Organizers</h3>
+                    <ul>
+                        <li><a href="organizer/dashboard.html">Create Event</a></li>
+                        <li><a href="#">Pricing</a></li>
+                        <li><a href="#">Event Tips</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Venues</h3>
+                    <ul>
+                        <li><a href="venue/dashboard.html">List Your Venue</a></li>
+                        <li><a href="#">Venue Guidelines</a></li>
+                        <li><a href="#">Success Stories</a></li>
+                        <li><a href="#">Venue Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 EventHub. All rights reserved.
+            </div>
+        </div>
+    </footer>
+    <script type="module" src="../scripts/event-details.js"></script>    
+    <script src="../scripts/script.js"></script>
+</body>
+</html>
