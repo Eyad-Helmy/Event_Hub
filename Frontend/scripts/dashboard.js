@@ -4,6 +4,7 @@ document.addEventListener('DOMContentLoaded', function() {
     document.querySelectorAll('.sidebar-nav a').forEach(link => {
         link.addEventListener('click', function(e) {
             const target = this.getAttribute('href');
+            console.log('Sidebar link clicked:', target); // Debug log
             if (target && target.startsWith('#')) {
                 e.preventDefault();
                 // Hide all sections
@@ -12,16 +13,71 @@ document.addEventListener('DOMContentLoaded', function() {
                 const section = document.querySelector(target);
                 if (section) section.classList.add('active');
 
-                // If My Events, load events
+                // If Attendee My Events, load attendee events
                 if (target === '#my-events') {
+                    console.log('Calling loadMyEvents()'); // Debug log
                     loadMyEvents();
+                }
+                // If Organizer My Events, load organizer events
+                if (target === '#events') {
+                    loadOrganizerEvents();
+                }
+                // If Organizer Dashboard, load organizer dashboard
+                if (target === '#organizer-dashboard') {
+                    loadOrganizerDashboard();
+                }
+                if (target === '#create-event') {
+                    loadCreateEvent();
+                }
+                if (target === '#registrations') {
+                    loadForOrganizerRegistrations();
                 }
             }
         });
     });
 
+    // Add click handler for Create Event button in events filter
+    const createEventBtn = document.getElementById('createEventBtn');
+    if (createEventBtn) {
+        createEventBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            // Hide all sections
+            document.querySelectorAll('.dashboard-section').forEach(sec => sec.classList.remove('active'));
+            // Show create event section
+            const createSection = document.getElementById('create-event');
+            if (createSection) createSection.classList.add('active');
+            // Load form logic
+            loadCreateEvent();
+        });
+    }
+
     // Initial load (optional: show overview or my-events by default)
     // document.querySelector('.sidebar-nav a[href="#overview"]').click();
+
+    // Show the correct dashboard section based on user role
+    const token = localStorage.getItem('jwtToken');
+    if (token) {
+        fetch('http://localhost:3000/api/users/me', {
+            headers: {
+                'Authorization': 'Bearer ' + token,
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(res => res.json())
+        .then(user => {
+            if (user.user.active_role === 'organizer') {
+                // Show organizer dashboard section
+                document.querySelectorAll('.dashboard-section').forEach(sec => sec.classList.remove('active'));
+                const orgSection = document.getElementById('organizer-dashboard');
+                if (orgSection) orgSection.classList.add('active');
+            } else if (user.user.active_role === 'attendee') {
+                // Show attendee dashboard section (default overview)
+                document.querySelectorAll('.dashboard-section').forEach(sec => sec.classList.remove('active'));
+                const attSection = document.getElementById('overview');
+                if (attSection) attSection.classList.add('active');
+            }
+        });
+    }
 });
 
 function loadMyEvents() {
@@ -71,6 +127,119 @@ function loadMyEvents() {
     });
 }
 
+function loadOrganizerDashboard() {
+    // Placeholder: implement organizer dashboard loading logic here
+    // For now, just log
+    console.log('Organizer dashboard loaded');
+}
+
+function loadOrganizerEvents() {
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+        window.location.href = '../../views/index.html';
+        return;
+    }
+    fetch('http://localhost:3000/api/events/my', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch organizer events');
+        return res.json();
+    })
+    .then(data => {
+        const eventsList = document.querySelector('#events .events-list');
+        if (eventsList && data.events && data.events.length > 0) {
+            eventsList.innerHTML = data.events.map(event => `
+                <div class="event-card">
+                    <div class="event-img" style="background-image: url('../../photos/LECTURES.jpeg')"></div>
+                    <div class="event-content">
+                        <h3>${event.title}</h3>
+                        <div class="event-meta">
+                            <div><i class="fas fa-calendar"></i> ${event.date}</div>
+                            <div><i class="fas fa-map-marker-alt"></i> ${event.venue_name || event.venue_id}</div>
+                        </div>
+                        <div class="event-actions">
+                            <button onclick="editEvent('${event.id}')" class="btn btn-outline">Edit</button>
+                            <button onclick="viewRegistrations('${event.id}')" class="btn btn-primary">View Registrations</button>
+                            <button onclick="cancelEvent('${event.id}')" class="btn btn-danger">Cancel Event</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        } else if (eventsList) {
+            eventsList.innerHTML = '<p class="error-message">No events found. Create your first event!</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        const eventsList = document.querySelector('#events .events-list');
+        if (eventsList) {
+            eventsList.innerHTML = '<p class="error-message">Failed to load your events. Please try again later.</p>';
+        }
+    });
+}
+
+export async function loadCreateEvent() {
+    // Placeholder: implement create event loading logic here
+    console.log('Create event loaded');
+    const form = document.getElementById('createEventForm');
+    if (!form) return;
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const token = localStorage.getItem('jwtToken');
+        if (!token) {
+            alert('You must be logged in to create an event.');
+            return;
+        }
+
+        // Get form values
+        const title = document.getElementById('eventTitle').value;
+        const description = document.getElementById('eventDescription').value;
+        const date = document.getElementById('eventDate').value;
+        const venueId = document.getElementById('eventVenue').value;
+
+        try {
+            const response = await fetch('http://localhost:3000/api/events/create-event', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    title,
+                    description, 
+                    date,
+                    venueId
+                })
+            });
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to create event');
+            }
+
+            const data = await response.json();
+            alert('Event created successfully!');
+            
+            // Reset form
+            form.reset();
+            
+            // Reload events list
+            loadMyEvents();
+
+        } catch (error) {
+            console.error('Error creating event:', error);
+            alert(error.message || 'Failed to create event. Please try again.');
+        }
+    });
+}
+
 export async function cancelRegistration(eventId) {
     const token = localStorage.getItem('jwtToken');
     if (!token) {
@@ -100,4 +269,46 @@ export async function cancelRegistration(eventId) {
         alert('An error occurred while cancelling registration.');
         console.error(error);
     }
+}
+
+function loadForOrganizerRegistrations() {
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+        window.location.href = '../../views/index.html';
+        return;
+    }
+    fetch('http://localhost:3000/api/registerations/for-organizer', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch registrations');
+        return res.json();
+    })
+    .then(data => {
+        const tbody = document.querySelector('#registrations .registrations-table tbody');
+        if (tbody && data.registrations && data.registrations.length > 0) {
+            tbody.innerHTML = data.registrations.map(reg => `
+                <tr>
+                    <td>${reg.event_title || ''}</td>
+                    <td>${reg.venue_name || ''}</td>
+                    <td>${reg.attendee_email || ''}</td>
+                    <td>${reg.date || ''}</td>
+                    <td>${reg.status || ''}</td>
+                </tr>
+            `).join('');
+        } else if (tbody) {
+            tbody.innerHTML = '<tr><td colspan="5" class="error-message">No registrations found.</td></tr>';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        const tbody = document.querySelector('#registrations .registrations-table tbody');
+        if (tbody) {
+            tbody.innerHTML = '<tr><td colspan="5" class="error-message">Failed to load registrations. Please try again later.</td></tr>';
+        }
+    });
 } 

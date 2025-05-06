@@ -16,6 +16,7 @@ export function createHeader() {
                         <li><a href="../../views/contact.html">Contact</a></li>
                         <li id="profileNav" style="display:none;"><a href="../../views/profile.html">Profile</a></li>
                         <li id="attendeeDashboardNav" style="display:none;"><a href="../../views/attendee/dashboard.html">Attendee Dashboard</a></li>
+                        <li id="organizerDashboardNav" style="display:none;"><a href="../../views/organizer/dashboard.html">Organizer Dashboard</a></li>
                     </ul>
                 </nav>
                 <div class="user-actions">
@@ -46,6 +47,8 @@ export function initializeHeader() {
     const loginBtn = document.getElementById('loginBtn');
     const signupBtn = document.getElementById('signupBtn');
     const logoutBtn = document.getElementById('logoutBtn');
+    const organizerDashboardNav = document.getElementById('organizerDashboardNav');
+    const organizerDashboardLabel = document.getElementById('organizerDashboardLabel');
 
     if (token) {
         // Fetch user info to check role
@@ -65,6 +68,17 @@ export function initializeHeader() {
             // Show attendee dashboard only for attendees
             if (attendeeDashboardNav) {
                 attendeeDashboardNav.style.display = user.user.active_role === 'attendee' ? 'inline-block' : 'none';
+            }
+            // Show organizer dashboard only for organizers and set username
+            if (organizerDashboardNav) {
+                if (user.user.active_role === 'organizer') {
+                    organizerDashboardNav.style.display = 'inline-block';
+                    if (organizerDashboardLabel) {
+                        organizerDashboardLabel.textContent = user.user.username + "'s Dashboard";
+                    }
+                } else {
+                    organizerDashboardNav.style.display = 'none';
+                }
             }
             // Show content after header is loaded
             document.body.style.visibility = 'visible';
@@ -99,4 +113,8 @@ export function initializeHeader() {
             window.location.href = '../../index.html';
         });
     }
+
+    // Remove My Events button if it exists
+    const myEventsBtn = document.getElementById('myEventsNav');
+    if (myEventsBtn) myEventsBtn.remove();
 } 

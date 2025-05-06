@@ -1,3 +1,4 @@
+
 async function fetchEvents() {
   const res = await fetch('http://localhost:3000/api/events');
   const data = await res.json();

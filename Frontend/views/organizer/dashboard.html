@@ -10,16 +10,446 @@
 </head>
 <body>
     <div id="header-container"></div>
-
     <!-- Main Content -->
     <main>
-        <!-- Your existing content -->
+        <div class="dashboard-container">
+            <!-- Sidebar -->
+            <aside class="dashboard-sidebar">
+                <div class="sidebar-header">
+                    <div class="user-info">
+                        <img src="https://via.placeholder.com/50" alt="Profile Picture" class="user-avatar">
+                        <div class="user-details">
+                            <h3 id="userName"></h3>
+                            <p class="user-role">Event Organizer</p>
+                        </div>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li class="active">
+                            <a href="#overview">
+                                <i class="fas fa-chart-line"></i>
+                                Overview
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#events">
+                                <i class="fas fa-calendar-alt"></i>
+                                My Events
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#venues">
+                                <i class="fas fa-building"></i>
+                                My Venues
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#create-event">
+                                <i class="fas fa-plus-circle"></i>
+                                Create Event
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#registrations">
+                                <i class="fas fa-users"></i>
+                                Registrations
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#analytics">
+                                <i class="fas fa-chart-bar"></i>
+                                Analytics
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#settings">
+                                <i class="fas fa-cog"></i>
+                                Settings
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div class="dashboard-content">
+                <!-- Overview Section -->
+                <section id="overview" class="dashboard-section active">
+                    <div class="section-header">
+                        <h2>Dashboard Overview</h2>
+                        <div class="date-filter">
+                            <select id="timeRange">
+                                <option value="7">Last 7 Days</option>
+                                <option value="30">Last 30 Days</option>
+                                <option value="90">Last 90 Days</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Events</h3>
+                                <p class="stat-value">12</p>
+                                <p class="stat-change positive">+2 from last month</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Registrations</h3>
+                                <p class="stat-value">1,234</p>
+                                <p class="stat-change positive">+15% from last month</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-ticket-alt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Revenue</h3>
+                                <p class="stat-value">$12,345</p>
+                                <p class="stat-change positive">+8% from last month</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Average Rating</h3>
+                                <p class="stat-value">4.8/5</p>
+                                <p class="stat-change positive">+0.2 from last month</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="charts-grid">
+                        <div class="chart-card">
+                            <h3>Event Registrations</h3>
+                            <div class="chart-container" id="registrationsChart">
+                                <!-- Chart will be rendered here -->
+                            </div>
+                        </div>
+                        <div class="chart-card">
+                            <h3>Revenue Overview</h3>
+                            <div class="chart-container" id="revenueChart">
+                                <!-- Chart will be rendered here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="recent-activity">
+                        <h3>Recent Activity</h3>
+                        <div class="activity-list">
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-calendar-plus"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>Created new event "Tech Conference 2024"</p>
+                                    <span class="activity-time">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>50 new registrations for "Marketing Workshop"</p>
+                                    <span class="activity-time">5 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-star"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>Received 5 new reviews for "Design Summit"</p>
+                                    <span class="activity-time">1 day ago</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Create Event Section -->
+                <section id="create-event" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Create New Event</h2>
+                    </div>
+                    <form id="createEventForm" class="event-form">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label for="eventTitle">Event Title</label>
+                                <input type="text" id="eventTitle" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="eventCategory">Category</label>
+                                <select id="eventCategory" required>
+                                    <option value="">Select Category</option>
+                                    <option value="conference">Conference</option>
+                                    <option value="workshop">Workshop</option>
+                                    <option value="seminar">Seminar</option>
+                                    <option value="networking">Networking</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="eventDate">Date & Time</label>
+                                <input type="datetime-local" id="eventDate" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="eventVenue">Venue</label>
+                                <select id="eventVenue" required>
+                                    <option value="">Select Venue</option>
+                                    <option value="1">Grand Hall</option>
+                                    <option value="2">Downtown Auditorium</option>
+                                    <option value="3">Community Center</option>
+                                </select>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="eventDescription">Description</label>
+                                <textarea id="eventDescription" rows="4" required></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="eventCapacity">Capacity</label>
+                                <input type="number" id="eventCapacity" min="1" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="eventPrice">Ticket Price ($)</label>
+                                <input type="number" id="eventPrice" min="0" step="0.01" required>
+                            </div>
+                            <div class="form-group full-width">
+                                <label for="eventImage">Event Image</label>
+                                <input type="file" id="eventImage" accept="image/*" required>
+                            </div>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Create Event</button>
+                            <button type="button" class="btn btn-outline">Save as Draft</button>
+                        </div>
+                    </form>
+                </section>
+
+                <!-- My Events Section -->
+                <section id="events" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>My Events</h2>
+                        <div class="event-filters">
+                            <select id="eventStatus">
+                                <option value="all">All Events</option>
+                                <option value="upcoming">Upcoming</option>
+                                <option value="past">Past</option>
+                                <option value="draft">Drafts</option>
+                            </select>
+                            <button class="btn btn-outline" id="createEventBtn">
+                                <i class="fas fa-plus"></i> Create Event
+                            </button>
+                        </div>
+                    </div>
+                    <div class="events-list">
+                        <!-- Events will be populated dynamically -->
+                    </div>
+                </section>
+
+
+                <!-- Registrations Section -->
+                <section id="registrations" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Event Registrations</h2>
+                        <div class="registration-filters">
+                            <select id="registrationEvent">
+                                <option value="all">All Events</option>
+                            </select>
+                            <select id="registrationStatus">
+                                <option value="all">All Statuses</option>
+                                <option value="confirmed">Confirmed</option>
+                                <option value="pending">Pending</option>
+                                <option value="cancelled">Cancelled</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="registrations-table">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Event</th>
+                                    <th>Attendee</th>
+                                    <th>Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <!-- Registrations will be populated dynamically -->
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+
+                <!-- Analytics Section -->
+                <section id="analytics" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Event Analytics</h2>
+                        <div class="analytics-filters">
+                            <select id="analyticsEvent">
+                                <option value="all">All Events</option>
+                            </select>
+                            <select id="analyticsTimeRange">
+                                <option value="7">Last 7 Days</option>
+                                <option value="30">Last 30 Days</option>
+                                <option value="90">Last 90 Days</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="analytics-grid">
+                        <div class="analytics-card">
+                            <h3>Registration Trends</h3>
+                            <div class="chart-container" id="registrationTrendsChart">
+                                <!-- Chart will be rendered here -->
+                            </div>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Attendee Demographics</h3>
+                            <div class="chart-container" id="demographicsChart">
+                                <!-- Chart will be rendered here -->
+                            </div>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Revenue Breakdown</h3>
+                            <div class="chart-container" id="revenueBreakdownChart">
+                                <!-- Chart will be rendered here -->
+                            </div>
+                        </div>
+                        <div class="analytics-card">
+                            <h3>Engagement Metrics</h3>
+                            <div class="metrics-grid">
+                                <div class="metric-item">
+                                    <span class="metric-label">Average Attendance</span>
+                                    <span class="metric-value">85%</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Social Shares</span>
+                                    <span class="metric-value">1,234</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Feedback Score</span>
+                                    <span class="metric-value">4.7/5</span>
+                                </div>
+                                <div class="metric-item">
+                                    <span class="metric-label">Return Rate</span>
+                                    <span class="metric-value">65%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- Settings Section -->
+                <section id="settings" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Account Settings</h2>
+                    </div>
+                    <form id="settingsForm" class="settings-form">
+                        <div class="form-group">
+                            <label for="profilePicture">Profile Picture</label>
+                            <div class="profile-picture-upload">
+                                <img src="https://via.placeholder.com/150" alt="Profile Picture" id="profilePreview">
+                                <input type="file" id="profilePicture" accept="image/*">
+                                <button type="button" class="btn btn-outline">Change Picture</button>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="organizationName">Organization Name</label>
+                            <input type="text" id="organizationName" value="Tech Events Inc.">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactEmail">Contact Email</label>
+                            <input type="email" id="contactEmail" value="contact@techevents.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="contactPhone">Contact Phone</label>
+                            <input type="tel" id="contactPhone" value="+1 234 567 8900">
+                        </div>
+                        <div class="form-group">
+                            <label for="website">Website</label>
+                            <input type="url" id="website" value="https://techevents.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="bio">Bio</label>
+                            <textarea id="bio" rows="4">Professional event organizer specializing in tech conferences and workshops.</textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                        </div>
+                    </form>
+                </section>
+            </div>
+        </div>
     </main>
 
     <!-- Footer -->
     <footer>
-        <!-- Your existing footer -->
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>EventHub</h3>
+                    <ul>
+                        <li><a href="../../views/about.html">About Us</a></li>
+                        <li><a href="../../views/contact.html">Contact Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Organizers</h3>
+                    <ul>
+                        <li><a href="dashboard.html">Dashboard</a></li>
+                        <li><a href="../../views/events.html">Browse Events</a></li>
+                        <li><a href="../../views/venues.html">Browse Venues</a></li>
+                        <li><a href="../../views/profile.html">My Profile</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal</h3>
+                    <ul>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 EventHub. All rights reserved.
+            </div>
+        </div>
     </footer>
+
+    <!-- Switch Role Modal -->
+    <div id="switchRoleModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>Switch Role</h2>
+            <form id="switchRoleForm">
+                <div class="form-group">
+                    <label for="newRole">Select New Role</label>
+                    <select id="newRole" name="newRole" required>
+                        <option value="">Select a role</option>
+                        <option value="attendee">Attendee</option>
+                        <option value="organizer">Organizer</option>
+                        <option value="venueAdmin">Venue Admin</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Switch Role</button>
+            </form>
+        </div>
+    </div>
 
     <script type="module">
         import { createHeader, initializeHeader } from '../../components/header.js';
@@ -34,5 +464,94 @@
     </script>
     <script src="../../scripts/script.js"></script>
     <script type="module" src="../../scripts/dashboard.js"></script>
+    <script>
+        // Authentication check
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('jwtToken');
+            console.log('Token:', token); // Debug log
+
+            if (!token) {
+                console.log('No token found, redirecting to home'); // Debug log
+                window.location.href = '../../views/index.html';
+                return;
+            }
+
+            // Verify user is an organizer
+            fetch('http://localhost:3000/api/users/me', {
+                headers: { 
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => {
+                console.log('Auth response status:', res.status); // Debug log
+                if (!res.ok) throw new Error('Not authenticated');
+                return res.json();
+            })
+            .then(user => {
+                console.log('User data:', user); // Debug log
+                if (user.user.active_role !== 'organizer') {
+                    console.log('Not an organizer, redirecting to home'); // Debug log
+                    window.location.href = '../../views/index.html';
+                    return;
+                }
+                // Set username in sidebar
+                const userNameElem = document.getElementById('userName');
+                if (userNameElem) userNameElem.textContent = user.user.username;
+                // Show organizer dashboard nav and hide login/signup
+                const organizerNav = document.getElementById('organizerDashboardNav');
+                const profileNav = document.getElementById('profileNav');
+                const loginBtn = document.getElementById('loginBtn');
+                const signupBtn = document.getElementById('signupBtn');
+                const logoutBtn = document.getElementById('logoutBtn');
+
+                console.log('Navigation elements:', { // Debug log
+                    organizerNav: organizerNav,
+                    profileNav: profileNav,
+                    loginBtn: loginBtn,
+                    signupBtn: signupBtn,
+                    logoutBtn: logoutBtn
+                });
+
+                if (organizerNav) organizerNav.style.display = 'inline-block';
+                if (profileNav) profileNav.style.display = 'inline-block';
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (signupBtn) signupBtn.style.display = 'none';
+                if (logoutBtn) logoutBtn.style.display = 'inline-block';
+                // Remove My Venues button from sidebar
+                const myVenuesBtn = document.querySelector('.sidebar-nav li a[href="#venues"]')?.parentElement;
+                if (myVenuesBtn) myVenuesBtn.remove();
+            })
+            .catch(error => {
+                console.error('Auth error:', error); // Debug log
+                window.location.href = '../../views/index.html';
+            });
+        });
+
+        // Make functions available globally
+        window.editEvent = function(eventId) {
+            import('../../scripts/dashboard.js').then(module => {
+                module.editEvent(eventId);
+            });
+        };
+        
+        window.viewRegistrations = function(eventId) {
+            import('../../scripts/dashboard.js').then(module => {
+                module.viewRegistrations(eventId);
+            });
+        };
+        
+        window.publishEvent = function(eventId) {
+            import('../../scripts/dashboard.js').then(module => {
+                module.publishEvent(eventId);
+            });
+        };
+        
+        window.cancelEvent = function(eventId) {
+            import('../../scripts/dashboard.js').then(module => {
+                module.cancelEvent(eventId);
+            });
+        };
+    </script>
 </body>
 </html> 

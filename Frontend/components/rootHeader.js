@@ -16,6 +16,7 @@ export function createHeader() {
                         <li><a href="contact.html">Contact</a></li>
                         <li id="profileNav" style="display:none;"><a href="profile.html">Profile</a></li>
                         <li id="attendeeDashboardNav" style="display:none;"><a href="attendee/dashboard.html">Attendee Dashboard</a></li>
+                        <li id="organizerDashboardNav" style="display:none;"><a href="organizer/dashboard.html">Organizer Dashboard</a></li>
                     </ul>
                 </nav>
                 <div class="user-actions">
@@ -43,6 +44,7 @@ export function initializeHeader() {
     const token = localStorage.getItem('jwtToken');
     const profileNav = document.getElementById('profileNav');
     const attendeeDashboardNav = document.getElementById('attendeeDashboardNav');
+    const organizerDashboardNav = document.getElementById('organizerDashboardNav');
     const loginBtn = document.getElementById('loginBtn');
     const signupBtn = document.getElementById('signupBtn');
     const logoutBtn = document.getElementById('logoutBtn');
@@ -66,6 +68,10 @@ export function initializeHeader() {
             if (attendeeDashboardNav) {
                 attendeeDashboardNav.style.display = user.user.active_role === 'attendee' ? 'inline-block' : 'none';
             }
+            // Show organizer dashboard only for organizers
+            if (organizerDashboardNav) {
+                organizerDashboardNav.style.display = user.user.active_role === 'organizer' ? 'inline-block' : 'none';
+            }
             // Show content after header is loaded
             document.body.style.visibility = 'visible';
             window.scrollTo(0, 0);
@@ -74,6 +80,7 @@ export function initializeHeader() {
             // If fetch fails, hide everything
             if (profileNav) profileNav.style.display = 'none';
             if (attendeeDashboardNav) attendeeDashboardNav.style.display = 'none';
+            if (organizerDashboardNav) organizerDashboardNav.style.display = 'none';
             if (loginBtn) loginBtn.style.display = 'inline-block';
             if (signupBtn) signupBtn.style.display = 'inline-block';
             if (logoutBtn) logoutBtn.style.display = 'none';
@@ -84,6 +91,7 @@ export function initializeHeader() {
     } else {
         if (profileNav) profileNav.style.display = 'none';
         if (attendeeDashboardNav) attendeeDashboardNav.style.display = 'none';
+        if (organizerDashboardNav) organizerDashboardNav.style.display = 'none';
         if (loginBtn) loginBtn.style.display = 'inline-block';
         if (signupBtn) signupBtn.style.display = 'inline-block';
         if (logoutBtn) logoutBtn.style.display = 'none';
