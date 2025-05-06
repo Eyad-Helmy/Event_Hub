@@ -69,4 +69,35 @@ function loadMyEvents() {
             eventsList.innerHTML = '<p class="error-message">Failed to load events. Please try again later.</p>';
         }
     });
+}
+
+export async function cancelRegistration(eventId) {
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+        alert('You must be logged in to cancel registration.');
+        return;
+    }
+    if (!confirm('Are you sure you want to cancel your registration for this event?')) {
+        return;
+    }
+    try {
+        const res = await fetch(`http://localhost:3000/api/registerations/${eventId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            }
+        });
+        if (!res.ok) {
+            const errorMsg = await res.text();
+            alert('Failed to cancel registration: ' + errorMsg);
+            return;
+        }
+        alert('Registration cancelled successfully.');
+        // Optionally reload the events list
+        loadMyEvents();
+    } catch (error) {
+        alert('An error occurred while cancelling registration.');
+        console.error(error);
+    }
 } 
