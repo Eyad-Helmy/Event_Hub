@@ -1,22 +1,7 @@
 // --- Auth & Header Logic ---
 function updateHeaderForAuth() {
-    const token = localStorage.getItem('jwtToken');
-    const profileNav = document.getElementById('profileNav');
-    const loginBtn = document.getElementById('loginBtn');
-    const signupBtn = document.getElementById('signupBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
-
-    if (token) {
-        if (profileNav) profileNav.style.display = 'inline-block';
-        if (loginBtn) loginBtn.style.display = 'none';
-        if (signupBtn) signupBtn.style.display = 'none';
-        if (logoutBtn) logoutBtn.style.display = 'inline-block';
-    } else {
-        if (profileNav) profileNav.style.display = 'none';
-        if (loginBtn) loginBtn.style.display = 'inline-block';
-        if (signupBtn) signupBtn.style.display = 'inline-block';
-        if (logoutBtn) logoutBtn.style.display = 'none';
-    }
+    // This function is now handled by the header component
+    console.log('Header auth is now handled by the header component');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -25,7 +10,6 @@ document.addEventListener('DOMContentLoaded', () => {
     // loadFeaturedEvents();
     setupNavigationLinks();
     // setupSearch();
-    updateHeaderForAuth();
 });
 
 function setupModals() {
@@ -116,7 +100,7 @@ function handleNavigation(url) {
     console.log(`Navigating to: ${url}`);
     window.location.href = url;
 }
-//comment 34wa2y
+
 function setupFormValidation() {
     const forms = {
         login: document.getElementById('loginForm'),
@@ -196,6 +180,6 @@ async function handleSignup(event) {
 if (document.getElementById('logoutBtn')) {
     document.getElementById('logoutBtn').addEventListener('click', function() {
         localStorage.removeItem('jwtToken');
-        window.location.href = 'index.html';
+        window.location.href = '../../views/index.html';
     });
 }

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Profile - EventHub</title>
+    <title>Profile - EventHub</title>
     <link rel="stylesheet" href="../styles.css">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
     <style>
@@ -20,32 +20,7 @@
 </head>
 
 <body>
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <a href="index.html" class="logo">
-                    <i>📅</i> EventHub
-                </a>
-                <nav>
-                    <ul>
-                        <li><a href="index.html">Home</a></li>
-                        <li><a href="events.html">Events</a></li>
-                        <li><a href="venues.html">Venues</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="contact.html">Contact</a></li>
-                        <li id="profileNav" style="display:none;"><a href="profile.html" class="active">Profile</a></li>
-                    </ul>
-                </nav>
-                <div class="user-actions">
-                    <button class="btn btn-outline" id="switchRoleBtn">Switch Role</button>
-                    <button class="btn btn-outline" id="loginBtn">Log In</button>
-                    <button class="btn btn-primary" id="signupBtn">Sign Up</button>
-                    <button class="btn btn-primary" id="logoutBtn" style="display: none;">Log Out</button>
-                </div>
-            </div>
-        </div>
-    </header>
+    <div id="header-container"></div>
 
     <!-- Main Content -->
     <main>
@@ -59,6 +34,7 @@
                     <div class="profile-info">
                         <h1 id="profileName">John Doe</h1>
                         <span class="user-role" id="profileRole">Attendee</span>
+                        <button id="switchRoleBtn" class="btn btn-outline" style="margin-left: 10px;">Switch Role</button>
                         <p class="user-email" id="profileEmail">john.doe@example.com</p>
                     </div>
                 </div>
@@ -196,6 +172,17 @@
         </div>
     </div>
 
+    <script type="module">
+        import { createHeader, initializeHeader } from '../components/rootHeader.js';
+        
+        // Insert header
+        document.getElementById('header-container').innerHTML = createHeader();
+        
+        // Initialize header functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeHeader();
+        });
+    </script>
     <script>
     document.addEventListener('DOMContentLoaded', function() {
         // Redirect to index if not authenticated

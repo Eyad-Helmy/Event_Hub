@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendee Dashboard - EventHub</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../organizer-dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <!-- Main Content -->
+    <main>
+        <div class="dashboard-container">
+            <!-- Sidebar -->
+            <aside class="dashboard-sidebar">
+                <div class="sidebar-header">
+                    <div class="user-info">
+                        <img src="../../photos/corporate.jpg" alt="Profile Picture" class="user-avatar">
+                        <div class="user-details">
+                            <h3 id="userName">John Doe</h3>
+                            <p class="user-role">Attendee</p>
+                        </div>
+                    </div>
+                </div>
+                <nav class="sidebar-nav">
+                    <ul>
+                        <li class="active">
+                            <a href="#overview">
+                                <i class="fas fa-chart-line"></i>
+                                Overview
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#my-events">
+                                <i class="fas fa-calendar-alt"></i>
+                                My Events
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#upcoming">
+                                <i class="fas fa-clock"></i>
+                                Upcoming Events
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#past">
+                                <i class="fas fa-history"></i>
+                                Past Events
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#interests">
+                                <i class="fas fa-heart"></i>
+                                Interests
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#settings">
+                                <i class="fas fa-cog"></i>
+                                Settings
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </aside>
+
+            <!-- Main Content Area -->
+            <div class="dashboard-content">
+                <!-- Overview Section -->
+                <section id="overview" class="dashboard-section active">
+                    <div class="section-header">
+                        <h2>My Events Overview</h2>
+                        <div class="date-filter">
+                            <select id="timeRange">
+                                <option value="7">Last 7 Days</option>
+                                <option value="30">Last 30 Days</option>
+                                <option value="90">Last 90 Days</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-ticket-alt"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Registered Events</h3>
+                                <p class="stat-value">8</p>
+                                <p class="stat-change positive">+2 this month</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Upcoming Events</h3>
+                                <p class="stat-value">3</p>
+                                <p class="stat-change">Next event in 2 days</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-dollar-sign"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Total Spent</h3>
+                                <p class="stat-value">$450</p>
+                                <p class="stat-change">This year</p>
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon">
+                                <i class="fas fa-star"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3>Reviews Given</h3>
+                                <p class="stat-value">12</p>
+                                <p class="stat-change positive">+3 this month</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Events -->
+                    <div class="upcoming-events">
+                        <h3>Upcoming Events</h3>
+                        <div class="event-cards">
+                            <div class="event-card">
+                                <div class="event-img" style="background-image: url('../../photos/LECTURES.jpeg')"></div>
+                                <div class="event-content">
+                                    <h3>Tech Conference 2024</h3>
+                                    <div class="event-meta">
+                                        <div><i class="fas fa-calendar"></i> March 15, 2024</div>
+                                        <div><i class="fas fa-map-marker-alt"></i> Tech Hub</div>
+                                    </div>
+                                    <div class="event-actions">
+                                        <button onclick="viewEventDetails(`${event.id}`)" class="btn btn-outline">View Details</button>
+                                        <button onclick="cancelRegistration(`${event.id}`)" class="btn btn-primary">Cancel Registration</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- More event cards -->
+                        </div>
+                    </div>
+
+                    <!-- Past Events -->
+                    <div class="past-events">
+                        <h3>Past Events</h3>
+                        <div class="event-cards">
+                            <div class="event-card">
+                                <div class="event-img" style="background-image: url('../../photos/workshops.jpg')"></div>
+                                <div class="event-content">
+                                    <h3>Design Workshop</h3>
+                                    <div class="event-meta">
+                                        <div><i class="fas fa-calendar"></i> February 20, 2024</div>
+                                        <div><i class="fas fa-map-marker-alt"></i> Design Studio</div>
+                                    </div>
+                                    <div class="event-actions">
+                                        <button onclick="viewEventDetails(' + event.id + ')" class="btn btn-outline">View Details</button>
+                                        <button onclick="leaveReview(' + event.id + ')" class="btn btn-primary">Leave Review</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- More event cards -->
+                        </div>
+                    </div>
+                </section>
+
+                <!-- My Events Section -->
+                <section id="my-events" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>My Events</h2>
+                        <div class="event-filters">
+                            <select id="eventStatus">
+                                <option value="all">All Events</option>
+                                <option value="upcoming">Upcoming</option>
+                                <option value="past">Past</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="events-list">
+                        <!-- Events will be populated dynamically -->
+                    </div>
+                </section>
+
+                <!-- Upcoming Events Section -->
+                <section id="upcoming" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Upcoming Events</h2>
+                        <div class="event-filters">
+                            <select id="upcomingStatus">
+                                <option value="all">All Events</option>
+                                <option value="upcoming">Upcoming</option>
+                                <option value="past">Past</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="events-list">
+                        <!-- Events will be populated dynamically -->
+                    </div>
+                </section>
+
+                <!-- Past Events Section -->
+                <section id="past" class="dashboard-section">
+                    <div class="section-header">
+                        <h2>Past Events</h2>
+                        <div class="event-filters">
+                            <select id="pastStatus">
+                                <option value="all">All Events</option>
+                                <option value="upcoming">Upcoming</option>
+                                <option value="past">Past</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="events-list">
+                        <!-- Events will be populated dynamically -->
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>EventHub</h3>
+                    <ul>
+                        <li><a href="../../views/about.html">About Us</a></li>
+                        <li><a href="../../views/contact.html">Contact Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Attendees</h3>
+                    <ul>
+                        <li><a href="dashboard.html">My Dashboard</a></li>
+                        <li><a href="../../views/events.html">Browse Events</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 EventHub. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <!-- Switch Role Modal -->
+    <div id="switchRoleModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>Switch Role</h2>
+            <form id="switchRoleForm">
+                <div class="form-group">
+                    <label for="newRole">Select New Role</label>
+                    <select id="newRole" name="newRole" required>
+                        <option value="">Select a role</option>
+                        <option value="attendee">Attendee</option>
+                        <option value="organizer">Organizer</option>
+                        <option value="venueAdmin">Venue Admin</option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Switch Role</button>
+            </form>
+        </div>
+    </div>
+
+    <script type="module">
+        import { createHeader, initializeHeader } from '../../components/header.js';
+        
+        // Insert header
+        document.getElementById('header-container').innerHTML = createHeader();
+        
+        // Initialize header functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeHeader();
+        });
+    </script>
+    <script src="../../scripts/script.js"></script>
+    <script type="module" src="../../scripts/dashboard.js"></script>
+    <script>
+        // Authentication check
+        document.addEventListener('DOMContentLoaded', function() {
+            const token = localStorage.getItem('jwtToken');
+            if (!token) {
+                window.location.href = '../../views/index.html';
+                return;
+            }
+
+            // Verify user is an attendee
+            fetch('http://localhost:3000/api/users/me', {
+                headers: { 
+                    'Authorization': 'Bearer ' + token,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Not authenticated');
+                return res.json();
+            })
+            .then(user => {
+                if (user.user.active_role !== 'attendee') {
+                    window.location.href = '../../views/index.html';
+                    return;
+                }
+                // Show attendee dashboard nav and hide login/signup
+                document.getElementById('attendeeDashboardNav').style.display = 'inline-block';
+                document.getElementById('profileNav').style.display = 'inline-block';
+                document.getElementById('loginBtn').style.display = 'none';
+                document.getElementById('signupBtn').style.display = 'none';
+                document.getElementById('logoutBtn').style.display = 'inline-block';
+            })
+            .catch(() => {
+                window.location.href = '../../views/index.html';
+            });
+        });
+
+        // Make functions available globally
+        window.viewEventDetails = function(eventId) {
+            import('../../scripts/dashboard.js').then(module => {
+                module.viewEventDetails(eventId);
+            });
+        };
+        
+        window.cancelRegistration = function(eventId) {
+            import('../../scripts/dashboard.js').then(module => {
+                module.cancelRegistration(eventId);
+            });
+        };
+        
+        window.leaveReview = function(eventId) {
+            import('../../scripts/dashboard.js').then(module => {
+                module.leaveReview(eventId);
+            });
+        };
+    </script>
+</body>
+</html> 
