@@ -17,6 +17,7 @@ export function createHeader() {
                         <li id="profileNav" style="display:none;"><a href="../../views/profile.html">Profile</a></li>
                         <li id="attendeeDashboardNav" style="display:none;"><a href="../../views/attendee/dashboard.html">Attendee Dashboard</a></li>
                         <li id="organizerDashboardNav" style="display:none;"><a href="../../views/organizer/dashboard.html">Organizer Dashboard</a></li>
+                        <li id="venueDashboardNav" style="display:none;"><a href="../../views/venue/dashboard.html">Venue Dashboard</a></li>
                     </ul>
                 </nav>
                 <div class="user-actions">
@@ -48,6 +49,7 @@ export function initializeHeader() {
     const signupBtn = document.getElementById('signupBtn');
     const logoutBtn = document.getElementById('logoutBtn');
     const organizerDashboardNav = document.getElementById('organizerDashboardNav');
+    const venueDashboardNav = document.getElementById('venueDashboardNav');
     const organizerDashboardLabel = document.getElementById('organizerDashboardLabel');
 
     if (token) {
@@ -80,6 +82,10 @@ export function initializeHeader() {
                     organizerDashboardNav.style.display = 'none';
                 }
             }
+            // Show venue dashboard only for venue_admins
+            if (venueDashboardNav) {
+                venueDashboardNav.style.display = user.user.active_role === 'venue_admin' ? 'inline-block' : 'none';
+            }
             // Show content after header is loaded
             document.body.style.visibility = 'visible';
             window.scrollTo(0, 0);
@@ -91,6 +97,7 @@ export function initializeHeader() {
             if (loginBtn) loginBtn.style.display = 'inline-block';
             if (signupBtn) signupBtn.style.display = 'inline-block';
             if (logoutBtn) logoutBtn.style.display = 'none';
+            if (venueDashboardNav) venueDashboardNav.style.display = 'none';
             // Show content after header is loaded
             document.body.style.visibility = 'visible';
             window.scrollTo(0, 0);
@@ -101,6 +108,7 @@ export function initializeHeader() {
         if (loginBtn) loginBtn.style.display = 'inline-block';
         if (signupBtn) signupBtn.style.display = 'inline-block';
         if (logoutBtn) logoutBtn.style.display = 'none';
+        if (venueDashboardNav) venueDashboardNav.style.display = 'none';
         // Show content after header is loaded
         document.body.style.visibility = 'visible';
         window.scrollTo(0, 0);

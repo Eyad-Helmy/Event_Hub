@@ -70,6 +70,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 document.querySelectorAll('.dashboard-section').forEach(sec => sec.classList.remove('active'));
                 const orgSection = document.getElementById('organizer-dashboard');
                 if (orgSection) orgSection.classList.add('active');
+            } else if (user.user.active_role === 'venue_admin') {
+                // Show venue admin dashboard section
+                document.querySelectorAll('.dashboard-section').forEach(sec => sec.classList.remove('active'));
+                const venueSection = document.getElementById('venue-dashboard');
+                if (venueSection) venueSection.classList.add('active');
+                loadVenueAdminDashboard();
             } else if (user.user.active_role === 'attendee') {
                 // Show attendee dashboard section (default overview)
                 document.querySelectorAll('.dashboard-section').forEach(sec => sec.classList.remove('active'));
@@ -86,7 +92,7 @@ function loadMyEvents() {
         window.location.href = '../../views/index.html';
         return;
     }
-    fetch('http://localhost:3000/api/registerations/my-events', {
+    fetch('http://localhost:3000/api/registrations/my-events', {
         method: 'GET',
         headers: {
             'Authorization': `Bearer ${token}`,
@@ -250,7 +256,7 @@ export async function cancelRegistration(eventId) {
         return;
     }
     try {
-        const res = await fetch(`http://localhost:3000/api/registerations/${eventId}`, {
+        const res = await fetch(`http://localhost:3000/api/registrations/${eventId}`, {
             method: 'DELETE',
             headers: {
                 'Authorization': `Bearer ${token}`,
@@ -258,16 +264,15 @@ export async function cancelRegistration(eventId) {
             }
         });
         if (!res.ok) {
-            const errorMsg = await res.text();
-            alert('Failed to cancel registration: ' + errorMsg);
-            return;
+            const errorData = await res.json();
+            throw new Error(errorData.message || 'Failed to cancel registration');
         }
         alert('Registration cancelled successfully.');
-        // Optionally reload the events list
+        // Reload the events list
         loadMyEvents();
     } catch (error) {
-        alert('An error occurred while cancelling registration.');
-        console.error(error);
+        console.error('Error cancelling registration:', error);
+        alert(error.message || 'An error occurred while cancelling registration.');
     }
 }
 
@@ -311,4 +316,95 @@ function loadForOrganizerRegistrations() {
             tbody.innerHTML = '<tr><td colspan="5" class="error-message">Failed to load registrations. Please try again later.</td></tr>';
         }
     });
+}
+
+export async function cancelEvent(eventId) {
+    if (!confirm('Are you sure you want to cancel this event?')) {
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/api/events/${eventId}`, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${localStorage.getItem('jwtToken')}`,
+                'Content-Type': 'application/json'
+            }
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            throw new Error(data.message || 'Failed to cancel event');
+        }
+
+        // Show success message
+        alert('Event cancelled successfully');
+        
+        // Refresh the events list
+        loadOrganizerEvents();
+    } catch (error) {
+        console.error('Error cancelling event:', error);
+        alert(error.message || 'Failed to cancel event. Please try again.');
+    }
+}
+
+function loadVenueAdminDashboard() {
+    const token = localStorage.getItem('jwtToken');
+    if (!token) {
+        window.location.href = '../../views/index.html';
+        return;
+    }
+
+    fetch('http://localhost:3000/api/venues/my', {
+        method: 'GET',
+        headers: {
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json'
+        }
+    })
+    .then(res => {
+        if (!res.ok) throw new Error('Failed to fetch venue data');
+        return res.json();
+    })
+    .then(data => {
+        const venueList = document.querySelector('#venue-dashboard .venue-list');
+        if (venueList && data.venues && data.venues.length > 0) {
+            venueList.innerHTML = data.venues.map(venue => `
+                <div class="venue-card">
+                    <div class="venue-content">
+                        <h3>${venue.name}</h3>
+                        <div class="venue-meta">
+                            <div><i class="fas fa-map-marker-alt"></i> ${venue.location}</div>
+                            <div><i class="fas fa-users"></i> Capacity: ${venue.capacity}</div>
+                        </div>
+                        <div class="venue-actions">
+                            <button onclick="editVenue('${venue.id}')" class="btn btn-outline">Edit Venue</button>
+                            <button onclick="viewVenueBookings('${venue.id}')" class="btn btn-primary">View Bookings</button>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        } else if (venueList) {
+            venueList.innerHTML = '<p class="error-message">No venues found. Add your first venue!</p>';
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        const venueList = document.querySelector('#venue-dashboard .venue-list');
+        if (venueList) {
+            venueList.innerHTML = '<p class="error-message">Failed to load venue data. Please try again later.</p>';
+        }
+    });
+}
+
+// Add venue admin specific functions
+export async function editVenue(venueId) {
+    // Implement venue editing logic
+    console.log('Editing venue:', venueId);
+}
+
+export async function viewVenueBookings(venueId) {
+    // Implement venue bookings view logic
+    console.log('Viewing bookings for venue:', venueId);
 } 

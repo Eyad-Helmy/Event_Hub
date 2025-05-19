@@ -42,6 +42,7 @@
                 <div class="profile-content">
                     <div class="profile-tabs">
                         <button class="tab-btn active" data-tab="personal">Personal Info</button>
+                        <button class="tab-btn" data-tab="venue-dashboard" id="venueDashboardTab">Venue Dashboard</button>
                         <button class="tab-btn" data-tab="events" id="myEventsTab">My Events</button>
                         <button class="tab-btn" data-tab="bookings" id="myBookingsTab">My Bookings</button>
                         <button class="tab-btn" data-tab="settings">Settings</button>
@@ -70,6 +71,12 @@
                                     <button type="submit" class="btn btn-primary">Save Changes</button>
                                 </div>
                             </form>
+                        </div>
+
+                        <div class="tab-pane" id="venue-dashboard">
+                            <div class="venue-list">
+                                <!-- Venues will be populated dynamically -->
+                            </div>
                         </div>
 
                         <div class="tab-pane" id="events">
@@ -167,7 +174,7 @@
             <div style="margin: 30px 0; display: flex; flex-direction: column; gap: 15px;">
                 <button class="btn btn-outline" data-role="attendee">Attendee</button>
                 <button class="btn btn-outline" data-role="organizer">Organizer</button>
-                <button class="btn btn-outline" data-role="venueAdmin">Venue Admin</button>
+                <button class="btn btn-outline" data-role="venue_admin">Venue Admin</button>
             </div>
         </div>
     </div>
@@ -290,24 +297,63 @@
                 btn.addEventListener('click', async function() {
                     const role = this.getAttribute('data-role');
                     if (role === currentRole) return;
+                    
+                    // Disable all role buttons during the switch
+                    const roleBtns = switchRoleModal.querySelectorAll('button[data-role]');
+                    roleBtns.forEach(btn => btn.disabled = true);
+                    
                     try {
+                        // Get the current token
+                        const token = localStorage.getItem('jwtToken');
+                        if (!token) {
+                            throw new Error('No authentication token found');
+                        }
+
+                        console.log('Attempting to switch to role:', role);
+                        console.log('Current token:', token);
+
                         const res = await fetch('http://localhost:3000/api/users/switch-role', {
                             method: 'POST',
                             headers: {
-                                'Authorization': 'Bearer ' + token,
+                                'Authorization': `Bearer ${token}`,
                                 'Content-Type': 'application/json'
                             },
                             body: JSON.stringify({ role })
                         });
-                        if (!res.ok) throw new Error('User does not have this role');
+                        
                         const data = await res.json();
+                        console.log('Switch role response:', data);
+                        
+                        if (!res.ok) {
+                            if (res.status === 403) {
+                                throw new Error('You do not have permission to switch to this role. Please contact support if you believe this is an error.');
+                            } else {
+                                throw new Error(data.message || `Failed to switch role (Status: ${res.status})`);
+                            }
+                        }
+                        
                         if (data.token) {
                             localStorage.setItem('jwtToken', data.token);
+                            // Update the current role
+                            currentRole = role;
+                            // Update the role display
+                            document.getElementById('profileRole').textContent = capitalize(role);
+                            // Close the modal
+                            switchRoleModal.style.display = 'none';
+                            // Reload the page to update all role-dependent content
+                            window.location.reload();
+                        } else {
+                            throw new Error('No token received from server');
                         }
-                        switchRoleModal.style.display = 'none';
-                        location.reload();
                     } catch (err) {
+                        console.error('Error switching role:', err);
                         alert('Error switching role: ' + err.message);
+                        // Re-enable the role buttons
+                        roleBtns.forEach(btn => {
+                            if (btn.getAttribute('data-role') !== currentRole) {
+                                btn.disabled = false;
+                            }
+                        });
                     }
                 });
             });
@@ -356,8 +402,10 @@
             const role = localStorage.getItem('userRole') || 'attendee';
             const myEventsTab = document.getElementById('myEventsTab');
             const myBookingsTab = document.getElementById('myBookingsTab');
+            const venueDashboardTab = document.getElementById('venueDashboardTab');
             if (myEventsTab) myEventsTab.style.display = (role === 'organizer') ? 'inline-block' : 'none';
             if (myBookingsTab) myBookingsTab.style.display = (role === 'attendee') ? 'inline-block' : 'none';
+            if (venueDashboardTab) venueDashboardTab.style.display = (role === 'venue_admin') ? 'inline-block' : 'none';
         }
         window.addEventListener('storage', function(e) {
             if (e.key === 'userRole') updateProfileTabsByRole();

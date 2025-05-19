@@ -17,6 +17,7 @@ export function createHeader() {
                         <li id="profileNav" style="display:none;"><a href="profile.html">Profile</a></li>
                         <li id="attendeeDashboardNav" style="display:none;"><a href="attendee/dashboard.html">Attendee Dashboard</a></li>
                         <li id="organizerDashboardNav" style="display:none;"><a href="organizer/dashboard.html">Organizer Dashboard</a></li>
+                        <li id="venueDashboardNav" style="display:none;"><a href="venue/dashboard.html">Venue Dashboard</a></li>
                     </ul>
                 </nav>
                 <div class="user-actions">
@@ -45,6 +46,7 @@ export function initializeHeader() {
     const profileNav = document.getElementById('profileNav');
     const attendeeDashboardNav = document.getElementById('attendeeDashboardNav');
     const organizerDashboardNav = document.getElementById('organizerDashboardNav');
+    const venueDashboardNav = document.getElementById('venueDashboardNav');
     const loginBtn = document.getElementById('loginBtn');
     const signupBtn = document.getElementById('signupBtn');
     const logoutBtn = document.getElementById('logoutBtn');
@@ -72,6 +74,10 @@ export function initializeHeader() {
             if (organizerDashboardNav) {
                 organizerDashboardNav.style.display = user.user.active_role === 'organizer' ? 'inline-block' : 'none';
             }
+            // Show venue dashboard only for venue_admins
+            if (venueDashboardNav) {
+                venueDashboardNav.style.display = user.user.active_role === 'venue_admin' ? 'inline-block' : 'none';
+            }
             // Show content after header is loaded
             document.body.style.visibility = 'visible';
             window.scrollTo(0, 0);
@@ -81,6 +87,7 @@ export function initializeHeader() {
             if (profileNav) profileNav.style.display = 'none';
             if (attendeeDashboardNav) attendeeDashboardNav.style.display = 'none';
             if (organizerDashboardNav) organizerDashboardNav.style.display = 'none';
+            if (venueDashboardNav) venueDashboardNav.style.display = 'none';
             if (loginBtn) loginBtn.style.display = 'inline-block';
             if (signupBtn) signupBtn.style.display = 'inline-block';
             if (logoutBtn) logoutBtn.style.display = 'none';
@@ -92,6 +99,7 @@ export function initializeHeader() {
         if (profileNav) profileNav.style.display = 'none';
         if (attendeeDashboardNav) attendeeDashboardNav.style.display = 'none';
         if (organizerDashboardNav) organizerDashboardNav.style.display = 'none';
+        if (venueDashboardNav) venueDashboardNav.style.display = 'none';
         if (loginBtn) loginBtn.style.display = 'inline-block';
         if (signupBtn) signupBtn.style.display = 'inline-block';
         if (logoutBtn) logoutBtn.style.display = 'none';

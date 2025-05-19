@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Events - EventHub</title>
+    <link rel="stylesheet" href="../../styles.css">
+    <link rel="stylesheet" href="../../styles/organizer-dashboard.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet" />
+</head>
+<body>
+    <div id="header-container"></div>
+
+    <!-- Main Content -->
+    <main>
+        <section class="container">
+            <div class="section-header">
+                <h2>My Registered Events</h2>
+                <div class="event-filters">
+                    <select id="eventStatus">
+                        <option value="all">All Events</option>
+                        <option value="upcoming">Upcoming</option>
+                        <option value="past">Past</option>
+                    </select>
+                </div>
+            </div>
+            <div class="events-list" id="eventsList">
+                <!-- Events will be populated dynamically -->
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>EventHub</h3>
+                    <ul>
+                        <li><a href="../../views/about.html">About Us</a></li>
+                        <li><a href="../../views/contact.html">Contact Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Blog</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>For Attendees</h3>
+                    <ul>
+                        <li><a href="dashboard.html">My Dashboard</a></li>
+                        <li><a href="../../views/events.html">Browse Events</a></li>
+                        <li><a href="#">FAQs</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                &copy; 2025 EventHub. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { createHeader, initializeHeader } from '../../components/header.js';
+        
+        // Insert header
+        document.getElementById('header-container').innerHTML = createHeader();
+        
+        // Initialize header functionality
+        document.addEventListener('DOMContentLoaded', () => {
+            initializeHeader();
+            loadMyEvents();
+        });
+
+        // Function to load user's events
+        function loadMyEvents() {
+            const token = localStorage.getItem('jwtToken');
+            if (!token) {
+                window.location.href = '../../views/index.html';
+                return;
+            }
+
+            fetch('http://localhost:3000/api/registerations/my-events', {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(res => {
+                if (!res.ok) throw new Error('Failed to fetch events');
+                return res.json();
+            })
+            .then(data => {
+                const eventsList = document.getElementById('eventsList');
+                if (eventsList && data.events) {
+                    eventsList.innerHTML = data.events.map(event => `
+                        <div class="event-card">
+                            <div class="event-img" style="background-image: url('../../photos/LECTURES.jpeg')"></div>
+                            <div class="event-content">
+                                <h3>${event.title}</h3>
+                                <div class="event-meta">
+                                    <div><i class="fas fa-calendar"></i> ${event.date}</div>
+                                    <div><i class="fas fa-map-marker-alt"></i> ${event.venue_id}</div>
+                                </div>
+                                <div class="event-actions">
+                                    <button onclick="viewEventDetails('${event.id}')" class="btn btn-outline">View Details</button>
+                                    <button onclick="cancelRegistration('${event.id}')" class="btn btn-primary">Cancel Registration</button>
+                                </div>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const eventsList = document.getElementById('eventsList');
+                if (eventsList) {
+                    eventsList.innerHTML = '<p class="error-message">Failed to load events. Please try again later.</p>';
+                }
+            });
+        }
+
+        // Make functions available globally
+        window.viewEventDetails = function(eventId) {
+            window.location.href = `../../views/event-details.html?id=${eventId}`;
+        };
+        
+        window.cancelRegistration = function(eventId) {
+            if (confirm('Are you sure you want to cancel your registration for this event?')) {
+                const token = localStorage.getItem('jwtToken');
+                fetch(`http://localhost:3000/api/registerations/${eventId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    }
+                })
+                .then(res => {
+                    if (!res.ok) throw new Error('Failed to cancel registration');
+                    loadMyEvents(); // Reload the events list
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    alert('Failed to cancel registration. Please try again later.');
+                });
+            }
+        };
+    </script>
+</body>
+</html> 

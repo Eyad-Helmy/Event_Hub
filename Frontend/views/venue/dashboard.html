@@ -13,7 +13,16 @@
 
     <!-- Main Content -->
     <main>
-        <!-- Your existing content -->
+        <section class="container" id="venueDashboardSection" style="display:none;">
+            <h1>Venue Dashboard</h1>
+            <div class="venue-list">
+                <!-- Venues will be populated here -->
+            </div>
+        </section>
+        <section class="container" id="notVenueAdminSection" style="display:none;">
+            <h2>Access Denied</h2>
+            <p>You do not have permission to view this page.</p>
+        </section>
     </main>
 
     <!-- Footer -->
@@ -30,7 +39,57 @@
         // Initialize header functionality
         document.addEventListener('DOMContentLoaded', () => {
             initializeHeader();
+            loadVenueDashboard();
         });
+        async function loadVenueDashboard() {
+            const token = localStorage.getItem('jwtToken');
+            if (!token) {
+                document.getElementById('notVenueAdminSection').style.display = 'block';
+                return;
+            }
+            try {
+                const res = await fetch('http://localhost:3000/api/users/me', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const user = await res.json();
+                if (user.user && user.user.active_role === 'venue_admin') {
+                    document.getElementById('venueDashboardSection').style.display = 'block';
+                    loadVenues(token);
+                } else {
+                    document.getElementById('notVenueAdminSection').style.display = 'block';
+                }
+            } catch (err) {
+                document.getElementById('notVenueAdminSection').style.display = 'block';
+            }
+        }
+        async function loadVenues(token) {
+            try {
+                const res = await fetch('http://localhost:3000/api/venues/my', {
+                    headers: {
+                        'Authorization': 'Bearer ' + token,
+                        'Content-Type': 'application/json'
+                    }
+                });
+                const data = await res.json();
+                const venueList = document.querySelector('.venue-list');
+                if (data.venues && data.venues.length > 0) {
+                    venueList.innerHTML = data.venues.map(venue => `
+                        <div class='venue-card'>
+                            <h3>${venue.name}</h3>
+                            <p><b>Location:</b> ${venue.location}</p>
+                            <p><b>Capacity:</b> ${venue.capacity}</p>
+                        </div>
+                    `).join('');
+                } else {
+                    venueList.innerHTML = '<p>No venues found.</p>';
+                }
+            } catch (err) {
+                document.querySelector('.venue-list').innerHTML = '<p>Failed to load venues.</p>';
+            }
+        }
     </script>
     <script src="../../scripts/script.js"></script>
     <script type="module" src="../../scripts/dashboard.js"></script>
